@@ -1,0 +1,40 @@
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import cookieParser from 'cookie-parser'
+import adminRouter from './routes/admin'
+import userRouter from './routes/user'
+import dotenv from 'dotenv'
+import path from 'path'
+
+const app = express();
+dotenv.config({
+  path: path.join(__dirname, '../.env')
+})
+app.use(express.json());
+
+const buildPath = path.join(__dirname, '../../admin/dist')
+
+app.use(express.static(buildPath))
+app.use(cors())
+app.use(cookieParser())
+
+
+app.use('/admin', adminRouter)
+app.use('/users', userRouter)
+
+
+
+// Connect to MongoDB
+mongoose.connect(('')  ,  { dbName: 'movie-mania' })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../admin/dist', 'index.html'), (err) => {
+    if(err)res.status(500).send(err)
+  })
+})
+
+app.listen(4000, () => {
+  console.log('Server is listening on port 3000');
+});
+
