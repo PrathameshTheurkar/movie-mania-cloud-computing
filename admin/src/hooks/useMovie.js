@@ -13,7 +13,7 @@ export const useMovie = () => {
 
   const fetchMovie = async () => {
     const { data } = await axios.get(
-      "http://localhost:4000/admin/movie/" + movieId,
+      "/admin/movie/" + movieId,
       {
         headers: {
           "Content-Type": "application/json",

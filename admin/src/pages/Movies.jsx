@@ -20,7 +20,7 @@ const Movies = () => {
     >
       {movies.map(movie => {
         return <>
-       <Link to={`/movie/${movie._id}`}>
+       <Link to={`/movie/${movie.movie_id}`}>
        <Card variant="outlined" sx={{ padding: 2, width: 300, height: 300, margin: 3, boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", borderRadius: 3  }}>
       <CardActionArea>
         <img style={{width: '100%', height: 180}} src={movie.imageLink} alt={movie.title + ' image'}/> 

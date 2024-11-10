@@ -9,7 +9,7 @@ export const useDeleteMovie = () => {
     const navigate = useNavigate()
 
     const deleteMovie = async() => {
-        const {data} = await axios.delete('http://localhost:4000/admin/movie/' + movieId, {
+        const {data} = await axios.delete('/admin/movie/' + movieId, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')

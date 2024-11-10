@@ -9,13 +9,13 @@ export const useLogin = () => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
 
-        const {data} = await axios.post('http://localhost:4000/admin/login', {
+        const {data} = await axios.post('/admin/login', {
             username: formData.get('email'),
             password: formData.get('password')
         })
 
         if(data.success){
-            localStorage.setItem('token', data.token1)
+            localStorage.setItem('token', data.token)
             // window.location = '/dashboard'
            toast.success('Successfully Login')
             navigate('/movies')

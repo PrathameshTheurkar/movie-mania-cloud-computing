@@ -9,7 +9,7 @@ export const useSignUp = () => {
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
 
-        const {data} = await axios.post('http://localhost:4000/admin/signup', {
+        const {data} = await axios.post('/admin/signup', {
             firstName: formData.get('firstName'),
             lastName: formData.get('lastName'),
             username: formData.get('email'),

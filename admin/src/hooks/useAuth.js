@@ -5,7 +5,7 @@ export const useAuth = async () => {
     const [auth, setAuth] = useState(false)
     const [user, setUser] = useState(null)
     async function handleAuthentication(){
-        const {data, status} = await axios.get('http://localhost:4000/admin/me', {
+        const {data, status} = await axios.get('/admin/me', {
             headers: {
                 "Content-Type" : "application/json",
                 "Authorization" : "Bearer "+localStorage.getItem('token')

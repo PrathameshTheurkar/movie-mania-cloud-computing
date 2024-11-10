@@ -5,14 +5,14 @@ export const useMovies = () => {
     const [movies, setMovies] = useState([])
 
     const fetchMovies = async() => {
-        const {data} = await axios.get('http://localhost:4000/admin/movies', {
+        const {data} = await axios.get('/admin/movies', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer '+ localStorage.getItem('token')
             }
         })
     
-        setMovies(data)
+        setMovies(data.movies)
     }
 
     return {

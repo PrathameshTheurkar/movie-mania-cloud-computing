@@ -47,10 +47,10 @@ const  Appbar = (props) =>  {
   const [auth, setAuth] = React.useState(false)
   const [user, setUser] = React.useState('')
   async function handleAuth(){
-      const {data} = await axios.get('http://localhost:4000/admin/me', {
+      const {data} = await axios.get('/admin/me', {
           headers: {
               "Content-Type" : "application/json",
-              "Authorization" : "Bearer "+localStorage.getItem('token')
+              "Authorization" : "Bearer " + localStorage.getItem('token')
           }
       }) 
       if(data.auth){

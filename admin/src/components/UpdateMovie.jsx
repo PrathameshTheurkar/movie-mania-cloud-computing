@@ -1,4 +1,4 @@
-import { Button, Card, TextField } from "@mui/material";
+import { Box, Button, Card, TextField } from "@mui/material";
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import movieState from "../recoil/atom/movieAtom.js";
@@ -15,6 +15,38 @@ function UpdateMovie({ movieId }) {
   const [title, setTitle] = useState(movie.title);
   const [description, setDescription] = useState(movie.description);
   const [image, setImage] = useState(movie.imageLink);
+  const [file, setFile] = useState()
+  const [price, setPrice] = useState(movie.price)
+ 
+  const handleSubmit = async(e)=>{
+    e.preventDefault()
+    
+    const formData = new FormData()
+
+    formData.append('image', file)
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('price', price)
+    formData.append('published', true)
+    formData.append('imageLink', image)
+
+    const {data} = await axios.put('/admin/movie/' + movieId, formData, {
+        headers: {
+            "Content-Type" : "multipart/form-data",
+            "Authorization" : "Bearer "+localStorage.getItem('token')
+        }
+    })
+
+    if (data.success){
+        setMovie({
+            title : title,
+            description : description,
+            imageLink : image
+        })
+        toast.success('Movie Updated Successfully')
+
+    }
+}
 
   return (
     <Card
@@ -25,6 +57,7 @@ function UpdateMovie({ movieId }) {
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
       }}
     >
+      <Box component={'form'} noValidate onSubmit={handleSubmit}>
       <TextField
         variant="outlined"
         fullWidth={true}
@@ -46,7 +79,25 @@ function UpdateMovie({ movieId }) {
       ></TextField>
       <br />
       <br />
+
       <TextField
+        variant="outlined"
+        fullWidth = {true}
+        onChange={(e)=>{
+            setPrice(e.target.value)
+        }}
+        label = "Price"
+        value = {price}
+        >
+        </TextField>
+        
+        <br /><br />
+
+        <input type="file" name="image" id="image" accept="image/*" onChange={(e) => {
+                setFile(e.target.files[0])
+        }} />
+
+      {/* <TextField
         variant="outlined"
         fullWidth={true}
         onChange={(e) => {
@@ -54,42 +105,17 @@ function UpdateMovie({ movieId }) {
         }}
         label="Image Link"
         value={image}
-      ></TextField>
+      ></TextField> */}
       <br />
       <br />
       <Button
+        type="submit"
         variant="contained"
         size="large"
-        onClick={async () => {
-          const { data } = await axios.put(
-            "http://localhost:4000/admin/movie/" + movieId,
-            {
-              title,
-              description,
-              price: 100,
-              imageLink: image,
-              published: true,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            }
-          );
-
-          if (data.success) {
-            setMovie({
-              title: title,
-              description: description,
-              imageLink: image,
-            });
-            toast.success("Movie Updated Successfully");
-          }
-        }}
       >
         Update
       </Button>
+      </Box>
       <DeleteMovie />
     </Card>
   );
